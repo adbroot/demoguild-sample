@@ -1,0 +1,85 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data":    {},
+		"modules": {},
+		"outputs": {},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config": {
+							"region": "ap-south-1",
+						},
+						"references": {
+							"region": [],
+						},
+						"version": "",
+					},
+				},
+				"config": {
+					"region": "ap-south-1",
+				},
+				"references": {
+					"region": [],
+				},
+				"version": "",
+			},
+		},
+		"resources": {
+			"aws_iam_account_password_policy": {
+				"strict": {
+					"config": {
+						"allow_users_to_change_password": true,
+						"minimum_password_length":        14,
+						"require_lowercase_characters":   true,
+						"require_numbers":                true,
+						"require_symbols":                true,
+						"require_uppercase_characters":   true,
+					},
+					"provisioners": null,
+					"references": {
+						"allow_users_to_change_password": [],
+						"minimum_password_length":        [],
+						"require_lowercase_characters":   [],
+						"require_numbers":                [],
+						"require_symbols":                [],
+						"require_uppercase_characters":   [],
+					},
+				},
+			},
+		},
+		"variables": {},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs

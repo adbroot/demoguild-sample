@@ -1,0 +1,114 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"path": [],
+		"resources": {
+			"aws_iam_account_password_policy": {
+				"strict": {
+					0: {
+						"applied": {
+							"allow_users_to_change_password": true,
+							"minimum_password_length":        14,
+							"require_lowercase_characters":   true,
+							"require_numbers":                true,
+							"require_symbols":                true,
+							"require_uppercase_characters":   true,
+						},
+						"destroy": false,
+						"diff": {
+							"allow_users_to_change_password": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"expire_passwords": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"hard_expiry": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"max_password_age": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"minimum_password_length": {
+								"computed": false,
+								"new":      "14",
+								"old":      "",
+							},
+							"password_reuse_prevention": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"require_lowercase_characters": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"require_numbers": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"require_symbols": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"require_uppercase_characters": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+terraform_version = "0.14.10"
+
+variables = {}
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources
